@@ -11,7 +11,8 @@ void addStudent(_ConnectionPtr connection, Student student);
 void deleteStudent(_ConnectionPtr connection, string id);
 void updateStudentClass(_ConnectionPtr connection, string id, string stuClass);
 void updateStudentStatus(_ConnectionPtr connection, string id, string status);
-Student& getStudentById(_ConnectionPtr connection, string id);
-std::vector<Student>& getStudentByName(_ConnectionPtr connection, string name);
+Student* getStudentById(_ConnectionPtr connection, string id);
+std::vector<Student>* getStudentByName(_ConnectionPtr connection, string name);
+std::vector<Student>* getAllStudent(_ConnectionPtr connection);
 
 #endif // !STUDENT_DAO_H

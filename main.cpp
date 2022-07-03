@@ -4,9 +4,10 @@
 #include <iostream>
 #include <locale.h> // setlocale
 #include <string>
-#include<vector>
+#include <vector>
 #include "DBCUtils.h"
 #include "StudentDAO.h"
+#include "Menu.h"
 using namespace std;
 
 //高级功能 直接输入sql语句
@@ -22,11 +23,14 @@ int main() {
     _ConnectionPtr pconnect(_uuidof(Connection));
 
     if (getConnection(pwd, pconnect)) {
-        try {
-            
-        }catch (_com_error& err) {
-            wprintf(L"The application throws the error: %s\n", (wchar_t*)err.ErrorMessage());
-            wprintf(L"Description = %s\n", (wchar_t*)err.Description());
+        while (true) {
+            try {
+                mainMenu(pconnect);
+            }
+            catch (_com_error& err) {
+                wprintf(L"The application throws the error: %s\n", (wchar_t*)err.ErrorMessage());
+                wprintf(L"Description = %s\n", (wchar_t*)err.Description());
+            }
         }
     }
     CoUninitialize();

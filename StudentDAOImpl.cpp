@@ -28,9 +28,10 @@ void updateStudentStatus(_ConnectionPtr connection, string id, string status) {
 	connection->Execute(sql.c_str(), NULL, (long)0);
 }
 
-Student& getStudentById(_ConnectionPtr connection, string id) {
+Student* getStudentById(_ConnectionPtr connection, string id) {
 	string sql = "select * from student where id = '" + id + "'";
 	_RecordsetPtr record = connection->Execute(sql.c_str(), NULL, (long)0);
+	if (record->BOF == -1) return NULL;
 
 	Student *student = new Student();
 	student->setId((char*)(_bstr_t)record->Fields->GetItem("id")->Value);
@@ -38,12 +39,13 @@ Student& getStudentById(_ConnectionPtr connection, string id) {
 	student->setSex((char*)(_bstr_t)record->Fields->GetItem("sex")->Value);
 	student->setStuClass((char*)(_bstr_t)record->Fields->GetItem("stuClass")->Value);
 	student->setStatus((char*)(_bstr_t)record->Fields->GetItem("status")->Value);
-	return *student;
+	return student;
 }
 
-std::vector<Student>& getStudentByName(_ConnectionPtr connection, string name) {
+std::vector<Student>* getStudentByName(_ConnectionPtr connection, string name) {
 	string sql = "select * from student where name = '" + name + "'";
 	_RecordsetPtr record = connection->Execute(sql.c_str(), NULL, (long)0);
+	if (record->BOF == -1) return NULL;
 
 	std::vector<Student> *v = new std::vector<Student>();
 	Student* student;
@@ -56,5 +58,24 @@ std::vector<Student>& getStudentByName(_ConnectionPtr connection, string name) {
 		student->setStatus((char*)(_bstr_t)record->Fields->GetItem("status")->Value);
 		v->push_back(*student);
 	}
-	return *v;
+	return v;
+}
+
+std::vector<Student>* getAllStudent(_ConnectionPtr connection) {
+	string sql = "select * from student";
+	_RecordsetPtr record = connection->Execute(sql.c_str(), NULL, (long)0);
+	if (record->BOF == -1) return NULL;
+
+	std::vector<Student>* v = new std::vector<Student>();
+	Student* student;
+	for (; !record->EndOfFile; record->MoveNext()) {
+		student = new Student();
+		student->setId((char*)(_bstr_t)record->Fields->GetItem("id")->Value);
+		student->setName((char*)(_bstr_t)record->Fields->GetItem("name")->Value);
+		student->setSex((char*)(_bstr_t)record->Fields->GetItem("sex")->Value);
+		student->setStuClass((char*)(_bstr_t)record->Fields->GetItem("stuClass")->Value);
+		student->setStatus((char*)(_bstr_t)record->Fields->GetItem("status")->Value);
+		v->push_back(*student);
+	}
+	return v;
 }

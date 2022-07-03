@@ -133,6 +133,8 @@
     <ClCompile Include="Grade.cpp" />
     <ClCompile Include="GradeDAOImpl.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="MenuUtils.cpp" />
     <ClCompile Include="Student.cpp" />
     <ClCompile Include="StudentDAOImpl.cpp" />
     <ClCompile Include="Test.cpp" />
@@ -141,6 +143,8 @@
     <ClInclude Include="CourseDAO.h" />
     <ClInclude Include="DBCUtils.h" />
     <ClInclude Include="GradeDAO.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="MenuUtils.h" />
     <ClInclude Include="StudentDAO.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
