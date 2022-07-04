@@ -80,55 +80,120 @@ void studentGradeMenu(_ConnectionPtr connection) {
 
 			printf("\n");
 
+			
+
 			string stuId, courseId;
 			string stuClass, courseName;
 			double grade = -1;
 			size_t size;
+			Student* student;
+			Course* course;
 			vector<Grade>* v;
 			switch (opt) {
 			case 1://输入学生成绩
 				printf("请输入学号：");
 				cin >> stuId;
+				student = getStudentById(connection, stuId);
+				if (student == NULL) {
+					printf("该学生不存在！\n");
+					break;
+				}
+
 				printf("请输入课程名：");
-				cin >> courseId;
+				cin >> courseName;
+				course = getCourseByName(connection, courseName);
+				if (course == NULL) {
+					printf("该课程不存在！\n");
+					break;
+				}
+
 				printf("请输入分数(0-100)：");
-				while (!(cin >> grade) || (opt < 0) || (opt > 100)) {
+				while (!(cin >> grade) || (grade < 0) || (grade > 100)) {
 					cout << "输入错误！请重新输入：";
 					cin.clear();
 					while (cin.get() != '\n');
 				}
-				addGrade(connection, *new Grade(stuId, courseId, doubleToString(grade)));
+
+				addGrade(connection, *new Grade(stuId, course->getId(), doubleToString(grade)));
 				printf("添加成功！\n");
 				break;
 			case 2://获取学生平均成绩
 				printf("请输入学号：");
 				cin >> stuId;
+				student = getStudentById(connection, stuId);
+				if (student == NULL) {
+					printf("该学生不存在！\n");
+					break;
+				}
+
 				printf("学生平均成绩为：%.2lf\n", getOnesAvgGrade(connection, stuId));
 				break;
 			case 3://获取学生总成绩
 				printf("请输入学号：");
 				cin >> stuId;
+				student = getStudentById(connection, stuId);
+				if (student == NULL) {
+					printf("该学生不存在！\n");
+					break;
+				}
+
 				printf("学生总成绩为：%.2lf\n", getOnesAllGrade(connection, stuId));
 				break;
 			case 4://获取班级平均分
 				printf("请输入班级：");
 				cin >> stuClass;
+				v = getGradeByStuClass(connection, stuClass);
+				if (v == NULL) {
+					printf("该班级不存在或无成绩记录！\n");
+					break;
+				}
+
 				printf("请输入课程名：");
 				cin >> courseName;
+				course = getCourseByName(connection, courseName);
+				if (course == NULL) {
+					printf("该课程不存在！\n");
+					break;
+				}
+
 				cout << stuClass << " 班级 " << courseName << " 课程的平均分为：" << getClassAvgGrade(connection, stuClass, courseName) << "\n";
 				break;
 			case 5://获取班级最高分
 				printf("请输入班级：");
 				cin >> stuClass;
+				v = getGradeByStuClass(connection, stuClass);
+				if (v == NULL) {
+					printf("该班级不存在或无成绩记录！\n");
+					break;
+				}
+
 				printf("请输入课程名：");
 				cin >> courseName;
+				course = getCourseByName(connection, courseName);
+				if (course == NULL) {
+					printf("该课程不存在！\n");
+					break;
+				}
+
 				cout << stuClass << " 班级 " << courseName << " 课程的最高分为：" << getClassMaxGrade(connection, stuClass, courseName) << "\n";
 				break;
 			case 6://获取班级最低分
 				printf("请输入班级：");
 				cin >> stuClass;
+				v = getGradeByStuClass(connection, stuClass);
+				if (v == NULL) {
+					printf("该班级不存在或无成绩记录！\n");
+					break;
+				}
+
 				printf("请输入课程名：");
 				cin >> courseName;
+				course = getCourseByName(connection, courseName);
+				if (course == NULL) {
+					printf("该课程不存在！\n");
+					break;
+				}
+
 				cout << stuClass << " 班级 " << courseName << " 课程的最低分为：" << getClassMinGrade(connection, stuClass, courseName) << "\n";
 				break;
 			case 7://获取班级成绩
@@ -136,9 +201,10 @@ void studentGradeMenu(_ConnectionPtr connection) {
 				cin >> stuClass;
 				v = getGradeByStuClass(connection, stuClass);
 				if (v == NULL) {
-					printf("该班级不存在！\n");
+					printf("该班级不存在或无成绩记录！\n");
 					break;
 				}
+
 				size = v->size();
 				cout << "学号\t" << "课程名\t" << "成绩\n";
 				for (size_t i = 0; i < size; i++) {
@@ -188,10 +254,17 @@ void studentGradeExternMenu(_ConnectionPtr connection) {
 			vector<Grade>* v;
 			Grade* gra;
 			Course* course;
+			Student* student;
 			switch (opt) {
 			case 1://删除某学生某科成绩
 				printf("请输入学号：");
 				cin >> stuId;
+				student = getStudentById(connection, stuId);
+				if (student == NULL) {
+					printf("该学生不存在！\n");
+					break;
+				}
+
 				printf("请输入课程名：");
 				cin >> courseName;
 				course = getCourseByName(connection, courseName);
@@ -199,12 +272,31 @@ void studentGradeExternMenu(_ConnectionPtr connection) {
 					printf("该课程不存在！\n");
 					break;
 				}
+
+				gra = getOnesGrade(connection, stuId, course->getId());
+				if (gra == NULL) {
+					printf("该学生不存在该课程的成绩记录！\n");
+					break;
+				}
+
 				deleteOnesGrade(connection, stuId, course->getId());
 				printf("删除成功！\n");
 				break;
 			case 2://删除某学生成绩
 				printf("请输入学号：");
 				cin >> stuId;
+				student = getStudentById(connection, stuId);
+				if (student == NULL) {
+					printf("该学生不存在！\n");
+					break;
+				}
+
+				v = getGradeByStuId(connection, stuId);
+				if (v == NULL) {
+					printf("该学生不存在成绩记录！\n");
+					break;
+				}
+
 				deleteGradeByStuId(connection, stuId);
 				printf("删除成功！\n");
 				break;
@@ -216,12 +308,25 @@ void studentGradeExternMenu(_ConnectionPtr connection) {
 					printf("该课程不存在！\n");
 					break;
 				}
+
+				v = getGradeByCourseId(connection, course->getId());
+				if (v == NULL) {
+					printf("该课程不存在成绩记录！\n");
+					break;
+				}
+
 				deleteGradeByCourseId(connection, course->getId());
 				printf("删除成功！\n");
 				break;
 			case 4://更改某学生某科成绩
 				printf("请输入学号：");
 				cin >> stuId;
+				student = getStudentById(connection, stuId);
+				if (student == NULL) {
+					printf("该学生不存在！\n");
+					break;
+				}
+
 				printf("请输入课程名：");
 				cin >> courseName;
 				course = getCourseByName(connection, courseName);
@@ -229,18 +334,32 @@ void studentGradeExternMenu(_ConnectionPtr connection) {
 					printf("该课程不存在！\n");
 					break;
 				}
+
+				gra = getOnesGrade(connection, stuId, course->getId());
+				if (gra == NULL) {
+					printf("该学生不存在该课程的成绩记录！\n");
+					break;
+				}
+
 				printf("请输入新分数(0-100)：");
 				while (!(cin >> grade) || (opt < 0) || (opt > 100)) {
 					cout << "输入错误！请重新输入：";
 					cin.clear();
 					while (cin.get() != '\n');
 				}
+
 				updateOnesGrade(connection, stuId, course->getId(), doubleToString(grade));
 				printf("更改成功！\n");
 				break;
 			case 5://查询某学生某科成绩
 				printf("请输入学号：");
 				cin >> stuId;
+				student = getStudentById(connection, stuId);
+				if (student == NULL) {
+					printf("该学生不存在！\n");
+					break;
+				}
+
 				printf("请输入课程名：");
 				cin >> courseName;
 				course = getCourseByName(connection, courseName);
@@ -248,22 +367,31 @@ void studentGradeExternMenu(_ConnectionPtr connection) {
 					printf("该课程不存在！\n");
 					break;
 				}
+
 				gra = getOnesGrade(connection, stuId, course->getId());
 				if (gra == NULL) {
-					printf("该条记录不存在！\n");
+					printf("该学生不存在该课程的成绩记录！\n");
 					break;
 				}
+
 				cout << "学号\t" << "课程名\t" << "成绩\n";
 				cout << (*gra).toString() << "\n";
 				break;
 			case 6://查询某学生成绩
 				printf("请输入学号：");
 				cin >> stuId;
-				v = getGradeByStuId(connection, stuId);
-				if (v == NULL) {
+				student = getStudentById(connection, stuId);
+				if (student == NULL) {
 					printf("该学生不存在！\n");
 					break;
 				}
+
+				v = getGradeByStuId(connection, stuId);
+				if (v == NULL) {
+					printf("该学生不存在成绩记录！\n");
+					break;
+				}
+
 				size = v->size();
 				cout << "学号\t" << "课程名\t" << "成绩\n";
 				for (size_t i = 0; i < size; i++) {
@@ -278,11 +406,13 @@ void studentGradeExternMenu(_ConnectionPtr connection) {
 					printf("该课程不存在！\n");
 					break;
 				}
+
 				v = getGradeByCourseId(connection, course->getId());
 				if (v == NULL) {
 					printf("该课程不存在对应成绩！\n");
 					break;
 				}
+
 				size = v->size();
 				cout << "学号\t" << "课程名\t" << "成绩\n";
 				for (size_t i = 0; i < size; i++) {
@@ -295,6 +425,7 @@ void studentGradeExternMenu(_ConnectionPtr connection) {
 					printf("无成绩记录！\n");
 					break;
 				}
+
 				size = v->size();
 				cout << "学号\t" << "课程名\t" << "成绩\n";
 				for (size_t i = 0; i < size; i++) {
@@ -332,10 +463,17 @@ void courseMenu(_ConnectionPtr connection) {
 			size_t size;
 			string courseId, courseName;
 			vector<Course>* v;
+			Course* course;
 			switch (opt) {
 			case 1://添加课程
 				printf("请输入课程号：");
 				cin >> courseId;
+				course = getCourseById(connection,courseId);
+				if (course != NULL) {
+					printf("该课程已存在！\n");
+					break;
+				}
+
 				printf("请输入课程名：");
 				cin >> courseName;
 				addCourse(connection, *new Course(courseId, courseName));
@@ -344,12 +482,24 @@ void courseMenu(_ConnectionPtr connection) {
 			case 2://删除课程
 				printf("请输入课程号：");
 				cin >> courseId;
+				course = getCourseById(connection, courseId);
+				if (course == NULL) {
+					printf("该课程不存在！\n");
+					break;
+				}
+
 				deleteCourse(connection, courseId);
 				printf("删除成功！\n");
 				break;
 			case 3://更改课程
 				printf("请输入课程号：");
 				cin >> courseId;
+				course = getCourseById(connection, courseId);
+				if (course == NULL) {
+					printf("该课程不存在！\n");
+					break;
+				}
+
 				printf("请输入课程名：");
 				cin >> courseName;
 				updateCourseName(connection, courseId, courseName);
@@ -361,6 +511,7 @@ void courseMenu(_ConnectionPtr connection) {
 					printf("不存在课程记录！\n");
 					break;
 				}
+
 				size = v->size();
 				cout << "课程号\t" << "课程名\n";
 				for (size_t i = 0; i < size; i++) {
@@ -455,6 +606,7 @@ void insertStudent(_ConnectionPtr connection) {
 		printf("该学生已存在！\n");
 		return;
 	}
+
 	stu->setId(str);
 	printf("请输入姓名：");
 	cin >> str;
@@ -482,6 +634,7 @@ void deleteStudent(_ConnectionPtr connection) {
 		printf("该学生不存在！\n");
 		return;
 	}
+
 	deleteStudent(connection, id);
 	printf("删除成功！\n");
 }

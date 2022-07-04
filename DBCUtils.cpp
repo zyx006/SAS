@@ -17,7 +17,7 @@ bool getConnection(std::string& pwd, _ConnectionPtr& connection) {
             wprintf(L"Description = %s\n", (wchar_t*)err.Description());
         }
         if (!isPwdTrue) {//密码错误，连接失败（打开连接失败，跳出try块执行）
-            wprintf(L"密码错误！");
+            wprintf(L"密码错误！\n");
             return false;
         }
     }
@@ -34,7 +34,7 @@ bool getConnection(std::string& pwd, _ConnectionPtr& connection) {
             wprintf(L"Description = %s\n", (wchar_t*)err.Description());
         }
         if (!isPwdTrue) {//验证失败，连接失败（打开连接失败，跳出try块执行）
-            wprintf(L"验证失败！");
+            wprintf(L"验证失败！\n");
             return false;
         }
     }
