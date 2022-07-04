@@ -39,13 +39,13 @@
     <ClCompile Include="GradeDAOImpl.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Test.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Menu.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="MenuUtils.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="StringUtils.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -66,6 +66,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="MenuUtils.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="StringUtils.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
