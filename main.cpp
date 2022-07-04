@@ -10,27 +10,24 @@
 #include "Menu.h"
 using namespace std;
 
-//高级功能 直接输入sql语句
 int main() {
     setlocale(LC_ALL, "chs");
     CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
 
     string pwd;
+    while (true) {
+        try {
+            wprintf(L"Enter password:");
+            getline(cin, pwd);
 
-    wprintf(L"Enter password:");
-    getline(cin, pwd);
-
-    _ConnectionPtr pconnect(_uuidof(Connection));
-
-    if (getConnection(pwd, pconnect)) {
-        while (true) {
-            try {
+            _ConnectionPtr pconnect(_uuidof(Connection));
+            if (getConnection(pwd, pconnect)) {
                 mainMenu(pconnect);
             }
-            catch (_com_error& err) {
-                wprintf(L"The application throws the error: %s\n", (wchar_t*)err.ErrorMessage());
-                wprintf(L"Description = %s\n", (wchar_t*)err.Description());
-            }
+        }
+        catch (_com_error& err) {
+            wprintf(L"The application throws the error: %s\n", (wchar_t*)err.ErrorMessage());
+            wprintf(L"Description = %s\n", (wchar_t*)err.Description());
         }
     }
     CoUninitialize();

@@ -26,14 +26,7 @@ public:
 	void setStatus(string status) { this->status = status; }
 
 	string toString() {
-		string toStr = "Student{";
-		toStr += "id='" + id + '\'' +
-			", name='" + name + '\'' +
-			", sex='" + sex + '\'' +
-			", stuClass='" + stuClass + '\'' +
-			", status='" + status + '\'' +
-			'}';
-		return toStr;
+		return id + "\t" + name + "\t" + sex + "\t" + stuClass + "\t" + status;
 	}
 private:
 	string id;//Ñ§ºÅ

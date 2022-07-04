@@ -18,11 +18,7 @@ public:
 	void setName(string name) { this->name = name; }
 
 	string toString() {
-		string toStr = "Course{";
-		toStr += "id='" + id + '\'' +
-			", name='" + name + '\'' +
-			'}';
-		return toStr;
+		return id + "\t" + name;
 	}
 private:
 	string id;//¿Î³ÌºÅ

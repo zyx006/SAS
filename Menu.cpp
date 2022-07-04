@@ -1,81 +1,91 @@
-#include<iostream>
 #include"Menu.h"
-#include"MenuUtils.h"
-#include"StudentDAO.h"
-#include"GradeDAO.h"
-#include"CourseDAO.h"
-using namespace std;
 
 void mainMenu(_ConnectionPtr connection) {
-	system("cls");
-	printf("1.显示所有学生\n");
-	printf("2.增加学生\n");
-	printf("3.删除学生\n");
-	printf("4.修改学生\n");
-	printf("5.从文件导入学生信息\n");
-	printf("6.导出学生信息到文件\n");
-	printf("7.学生成绩管理\n");
-	printf("8.课程管理\n");
-	printf("0.退出\n");
+	while (true) {
+		try {
+			system("cls");
+			printf("1.显示所有学生\n");
+			printf("2.增加学生\n");
+			printf("3.删除学生\n");
+			printf("4.修改学生\n");
+			printf("5.从文件导入学生信息\n");
+			printf("6.导出学生信息到文件\n");
+			printf("7.学生成绩管理\n");
+			printf("8.课程管理\n");
+			printf("9.高级功能\n");
+			printf("0.退出\n");
 
-	int opt = -1;
-	checkOptInput(opt, 0, 8);
+			int opt = -1;
+			checkOptInput(opt, 0, 9);
 
-	switch (opt){
-		case 1:
-			showAllStudent(connection);
-			break;
-		case 2:
-			insertStudent(connection);
-			break;
-		case 3:
-			deleteStudent(connection);
-			break;
-		case 4:
-			changeStudent(connection);
-			break;
-		case 5:
-			importData(connection);
-			break;
-		case 6:
-			exportData(connection);
-			break;
-		case 7:
-			studentGradeMenu(connection);
-			break;
-		case 8:
-			courseMenu(connection);
-			break;
-		default:
-			exit(EXIT_SUCCESS);
+			switch (opt) {
+			case 1:
+				showAllStudent(connection);
+				break;
+			case 2:
+				insertStudent(connection);
+				break;
+			case 3:
+				deleteStudent(connection);
+				break;
+			case 4:
+				changeStudent(connection);
+				break;
+			case 5:
+				importData(connection);
+				break;
+			case 6:
+				exportData(connection);
+				break;
+			case 7:
+				studentGradeMenu(connection);
+				break;
+			case 8:
+				courseMenu(connection);
+				break;
+			case 9:
+				advancedFunction(connection);
+				break;
+			default:
+				exit(EXIT_SUCCESS);
+			}
+			printf("\n");
+			system("pause");
+		}
+		catch (_com_error& err) {
+			wprintf(L"操作失败！\n");
+			wprintf(L"The application throws the error: %s\n", (wchar_t*)err.ErrorMessage());
+			wprintf(L"Description = %s\n", (wchar_t*)err.Description());
+			system("pause");
+		}
 	}
-	printf("\n");
 }
 
 void studentGradeMenu(_ConnectionPtr connection) {
 	while (true) {
-		system("cls");
-		printf("1.输入学生成绩\n");
-		printf("2.获取学生平均成绩\n");
-		printf("3.获取学生总成绩\n");
-		printf("4.获取班级平均分\n");
-		printf("5.获取班级最高分\n");
-		printf("6.获取班级最低分\n");
-		printf("7.获取班级成绩\n");
-		printf("8.二级拓展菜单\n");
-		printf("0.返回上一级\n");
+		try {
+			system("cls");
+			printf("1.输入学生成绩\n");
+			printf("2.获取学生平均成绩\n");
+			printf("3.获取学生总成绩\n");
+			printf("4.获取班级平均分\n");
+			printf("5.获取班级最高分\n");
+			printf("6.获取班级最低分\n");
+			printf("7.获取班级成绩\n");
+			printf("8.二级拓展菜单\n");
+			printf("0.返回上一级\n");
 
-		int opt = -1;
-		checkOptInput(opt, 0, 8);
+			int opt = -1;
+			checkOptInput(opt, 0, 8);
 
-		printf("\n");
+			printf("\n");
 
-		string stuId, courseId;
-		string stuClass, courseName;
-		double grade = -1;
-		int size;
-		vector<Grade> *v;
-		switch (opt) {
+			string stuId, courseId;
+			string stuClass, courseName;
+			double grade = -1;
+			int size;
+			vector<Grade>* v;
+			switch (opt) {
 			case 1://输入学生成绩
 				printf("请输入学号：");
 				cin >> stuId;
@@ -105,21 +115,21 @@ void studentGradeMenu(_ConnectionPtr connection) {
 				cin >> stuClass;
 				printf("请输入课程名：");
 				cin >> courseName;
-				cout << stuClass << "班级" << courseName << "课程的平均分为：" << getClassAvgGrade(connection, stuClass, courseName) << "\n";
+				cout << stuClass << " 班级 " << courseName << " 课程的平均分为：" << getClassAvgGrade(connection, stuClass, courseName) << "\n";
 				break;
 			case 5://获取班级最高分
 				printf("请输入班级：");
 				cin >> stuClass;
 				printf("请输入课程名：");
 				cin >> courseName;
-				cout << stuClass << "班级" << courseName << "课程的最高分为：" << getClassMaxGrade(connection, stuClass, courseName) << "\n";
+				cout << stuClass << " 班级 " << courseName << " 课程的最高分为：" << getClassMaxGrade(connection, stuClass, courseName) << "\n";
 				break;
 			case 6://获取班级最低分
 				printf("请输入班级：");
 				cin >> stuClass;
 				printf("请输入课程名：");
 				cin >> courseName;
-				cout << stuClass << "班级" << courseName << "课程的最低分为：" << getClassMinGrade(connection, stuClass, courseName) << "\n";
+				cout << stuClass << " 班级 " << courseName << " 课程的最低分为：" << getClassMinGrade(connection, stuClass, courseName) << "\n";
 				break;
 			case 7://获取班级成绩
 				printf("请输入班级：");
@@ -132,7 +142,7 @@ void studentGradeMenu(_ConnectionPtr connection) {
 				size = v->size();
 				cout << "学号\t" << "课程名\t" << "成绩\n";
 				for (int i = 0; i < size; i++) {
-					cout << (*v)[i].getStuId() << "\t" << getCourseById(connection, (*v)[i].getCourseId())->getName() << "\t" << (*v)[i].getGradeStr() << "\n";
+					cout << (*v)[i].toString() << "\n";
 				}
 				break;
 			case 8://二级拓展菜单
@@ -140,37 +150,45 @@ void studentGradeMenu(_ConnectionPtr connection) {
 				break;
 			default://返回上一级
 				return;
+			}
+			system("pause");
 		}
-		system("pause");
+		catch (_com_error& err) {
+			wprintf(L"操作失败！\n");
+			wprintf(L"The application throws the error: %s\n", (wchar_t*)err.ErrorMessage());
+			wprintf(L"Description = %s\n", (wchar_t*)err.Description());
+			system("pause");
+		}
 	}
 }
 
 void studentGradeExternMenu(_ConnectionPtr connection) {
 	while (true) {
-		system("cls");
-		printf("1.删除某学生某科成绩\n");
-		printf("2.删除某学生成绩\n");
-		printf("3.删除某科成绩\n");
-		printf("4.更改某学生某科成绩\n");
-		printf("5.查询某学生某科成绩\n");
-		printf("6.查询某学生成绩\n");
-		printf("7.查询某科成绩\n");
-		printf("8.查询所有成绩\n");
-		printf("0.返回上一级\n");
+		try {
+			system("cls");
+			printf("1.删除某学生某科成绩\n");
+			printf("2.删除某学生成绩\n");
+			printf("3.删除某科成绩\n");
+			printf("4.更改某学生某科成绩\n");
+			printf("5.查询某学生某科成绩\n");
+			printf("6.查询某学生成绩\n");
+			printf("7.查询某科成绩\n");
+			printf("8.查询所有成绩\n");
+			printf("0.返回上一级\n");
 
-		int opt = -1;
-		checkOptInput(opt, 0, 8);
+			int opt = -1;
+			checkOptInput(opt, 0, 8);
 
-		printf("\n");
+			printf("\n");
 
-		string stuId, courseId;
-		string stuClass, courseName;
-		double grade = -1;
-		int size;
-		vector<Grade> *v;
-		Grade* gra;
-		Course* course;
-		switch (opt) {
+			string stuId, courseId;
+			string stuClass, courseName;
+			double grade = -1;
+			int size;
+			vector<Grade>* v;
+			Grade* gra;
+			Course* course;
+			switch (opt) {
 			case 1://删除某学生某科成绩
 				printf("请输入学号：");
 				cin >> stuId;
@@ -236,7 +254,7 @@ void studentGradeExternMenu(_ConnectionPtr connection) {
 					break;
 				}
 				cout << "学号\t" << "课程名\t" << "成绩\n";
-				cout << (*gra).getStuId() << "\t" << getCourseById(connection, (*gra).getCourseId())->getName() << "\t" << (*gra).getGradeStr() << "\n";
+				cout << (*gra).toString() << "\n";
 				break;
 			case 6://查询某学生成绩
 				printf("请输入学号：");
@@ -249,7 +267,7 @@ void studentGradeExternMenu(_ConnectionPtr connection) {
 				size = v->size();
 				cout << "学号\t" << "课程名\t" << "成绩\n";
 				for (int i = 0; i < size; i++) {
-					cout << (*v)[i].getStuId() << "\t" << getCourseById(connection, (*v)[i].getCourseId())->getName() << "\t" << (*v)[i].getGradeStr() << "\n";
+					cout << (*v)[i].toString() << "\n";
 				}
 				break;
 			case 7://查询某科成绩
@@ -268,7 +286,7 @@ void studentGradeExternMenu(_ConnectionPtr connection) {
 				size = v->size();
 				cout << "学号\t" << "课程名\t" << "成绩\n";
 				for (int i = 0; i < size; i++) {
-					cout << (*v)[i].getStuId() << "\t" << getCourseById(connection, (*v)[i].getCourseId())->getName() << "\t" << (*v)[i].getGradeStr() << "\n";
+					cout << (*v)[i].toString() << "\n";
 				}
 				break;
 			case 8://查询所有成绩
@@ -280,39 +298,47 @@ void studentGradeExternMenu(_ConnectionPtr connection) {
 				size = v->size();
 				cout << "学号\t" << "课程名\t" << "成绩\n";
 				for (int i = 0; i < size; i++) {
-					cout << (*v)[i].getStuId() << "\t" << getCourseById(connection, (*v)[i].getCourseId())->getName() << "\t" << (*v)[i].getGradeStr() << "\n";
+					cout << (*v)[i].toString() << "\n";
 				}
 				break;
 			default://返回上一级
 				return;
+			}
+			system("pause");
 		}
-		system("pause");
+		catch (_com_error& err) {
+			wprintf(L"操作失败！\n");
+			wprintf(L"The application throws the error: %s\n", (wchar_t*)err.ErrorMessage());
+			wprintf(L"Description = %s\n", (wchar_t*)err.Description());
+			system("pause");
+		}
 	}
 }
 
 void courseMenu(_ConnectionPtr connection) {
 	while (true) {
-		system("cls");
-		printf("1.添加课程\n");
-		printf("2.删除课程\n");
-		printf("3.更改课程\n");
-		printf("4.查询所有课程\n");
-		printf("0.返回上一级\n");
-		int opt = -1;
-		checkOptInput(opt, 0, 8);
+		try {
+			system("cls");
+			printf("1.添加课程\n");
+			printf("2.删除课程\n");
+			printf("3.更改课程\n");
+			printf("4.查询所有课程\n");
+			printf("0.返回上一级\n");
+			int opt = -1;
+			checkOptInput(opt, 0, 4);
 
-		printf("\n");
+			printf("\n");
 
-		int size;
-		string courseId, courseName;
-		vector<Course>* v;
-		switch (opt) {
+			int size;
+			string courseId, courseName;
+			vector<Course>* v;
+			switch (opt) {
 			case 1://添加课程
 				printf("请输入课程号：");
 				cin >> courseId;
 				printf("请输入课程名：");
 				cin >> courseName;
-				addCourse(connection,*new Course(courseId, courseName));
+				addCourse(connection, *new Course(courseId, courseName));
 				printf("添加成功！\n");
 				break;
 			case 2://删除课程
@@ -326,7 +352,7 @@ void courseMenu(_ConnectionPtr connection) {
 				cin >> courseId;
 				printf("请输入课程名：");
 				cin >> courseName;
-				updateCourseName(connection, courseId,courseName);
+				updateCourseName(connection, courseId, courseName);
 				printf("更新成功！\n");
 				break;
 			case 4://查询所有课程
@@ -338,21 +364,79 @@ void courseMenu(_ConnectionPtr connection) {
 				size = v->size();
 				cout << "课程号\t" << "课程名\n";
 				for (int i = 0; i < size; i++) {
-					cout << (*v)[i].getId() << "\t" << (*v)[i].getName() << "\n";
+					cout << (*v)[i].toString() << "\n";
 				}
 				break;
 			default://返回上一级
 				return;
+			}
+			system("pause");
 		}
-		system("pause");
+		catch (_com_error& err) {
+			wprintf(L"操作失败！\n");
+			wprintf(L"The application throws the error: %s\n", (wchar_t*)err.ErrorMessage());
+			wprintf(L"Description = %s\n", (wchar_t*)err.Description());
+			system("pause");
+		}
 	}
 }
 
+void advancedFunction(_ConnectionPtr connection) {
+	system("cls");
+	_RecordsetPtr record(_uuidof(Recordset));
+	string sql;
+
+	cin.clear();
+	while (cin.get() != '\n');
+	while (true) {
+		try {
+			wprintf(L"sql>");
+			//获取sql命令及种类
+			getline(cin, sql);
+			while (sql == "" || sql[sql.size() - 1] != ';') {
+				wprintf(L"   >");
+				string tmp;
+				getline(cin, tmp);
+				sql += " " + tmp;
+			}
+			string comType = "";
+			getSqlType(sql, comType);
+			//执行sql命令
+			if (comType == "select") {//查询
+				record = connection->Execute(sql.c_str(), NULL, (long)0);
+				for (long i = 0; i < record->Fields->Count; i++)
+					wprintf(L"%s\t", (wchar_t*)record->Fields->GetItem(i)->Name);
+				printf("\n");
+				wprintf(L"%s", (wchar_t*)record->GetString(adClipString, long(-1), "\t", "\n", "Null"));
+				//showRecordInfo(record);
+			}else if (comType == "exit" || comType == "exit;") {
+				system("pause");
+				break;
+			}else {
+				connection->Execute(sql.c_str(), NULL, (long)0);
+			}
+			printf("\n");
+		}
+		catch (_com_error& err) {
+			wprintf(L"\nThe application throws the error: %s\n", (wchar_t*)err.ErrorMessage());
+			wprintf(L"Description = %s\n\n", (wchar_t*)err.Description());
+		}
+	}
+}
+
+
+
 void showAllStudent(_ConnectionPtr connection) {
-	vector<Student> vs = *getAllStudent(connection);
-	int size = vs.size();
+	vector<Student>* vs = getAllStudent(connection);
+	if (vs == NULL) {
+		printf("学生信息为空！\n");
+		return;
+	}
+
+	int size = vs->size();
+	printf("学号\t姓名\t性别\t班级\t状态\n");
 	for (int i = 0; i < size; i++) {
-		cout << vs[i].toString() << "\n";
+		cout << (*vs)[i].toString() << "\n";
 	}
 }
 
@@ -423,9 +507,248 @@ void changeStudent(_ConnectionPtr connection) {
 }
 
 void exportData(_ConnectionPtr connection) {
+	while (true) {
+		try {
+			system("cls");
+			printf("1.导出学生信息\n");
+			printf("2.导出课程信息\n");
+			printf("3.导出成绩信息\n");
+			printf("4.导出所有信息\n");
+			printf("0.返回上一级\n");
+			int opt = -1;
+			checkOptInput(opt, 0, 4);
 
+			printf("\n");
+
+			switch (opt) {
+			case 1://导出学生信息
+				exportStudentData(connection);
+				break;
+			case 2://导出课程信息
+				exportCourseData(connection);
+				break;
+			case 3://导出成绩信息
+				exportGradeData(connection);
+				break;
+			case 4://导出所有信息
+				exportAllData(connection);
+				break;
+			default://返回上一级
+				return;
+			}
+			system("pause");
+		}
+		catch (_com_error& err) {
+			wprintf(L"操作失败！\n");
+			wprintf(L"The application throws the error: %s\n", (wchar_t*)err.ErrorMessage());
+			wprintf(L"Description = %s\n", (wchar_t*)err.Description());
+			system("pause");
+		}
+	}
 }
 
-void importData(_ConnectionPtr connection) {
+void exportStudentData(_ConnectionPtr connection) {
+	ofstream outFile("student.txt", ios::out);
+	if (!outFile.is_open()) {
+		printf("导出student.txt文件失败！\n");
+		return;
+	}
 
+	int size;
+	vector<Student>* vs;
+	vs = getAllStudent(connection);
+	if (vs == NULL) {
+		printf("学生信息为空！\n");
+		outFile.close();
+		return;
+	}
+	outFile << "学号\t姓名\t性别\t班级\t状态\n";
+	size = vs->size();
+	for (int i = 0; i < size; i++) {
+		outFile << (*vs)[i].toString() << "\n";
+	}
+	printf("成功导出student.txt文件!\n");
+	outFile.close();
+}
+
+void exportCourseData(_ConnectionPtr connection) {
+	ofstream outFile("course.txt", ios::out);
+	if (!outFile.is_open()) {
+		printf("导出course.txt文件失败！\n");
+		return;
+	}
+
+	int size;
+	vector<Course>* vc;
+	vc = getAllCourse(connection);
+	if (vc == NULL) {
+		printf("课程信息为空！\n");
+		outFile.close();
+		return;
+	}
+	outFile << "课程号\t课程名\n";
+	size = vc->size();
+	for (int i = 0; i < size; i++) {
+		outFile << (*vc)[i].toString() << "\n";
+	}
+	printf("成功导出course.txt文件!\n");
+	outFile.close();
+}
+
+void exportGradeData(_ConnectionPtr connection) {
+	ofstream outFile("grade.txt", ios::out);
+	if (!outFile.is_open()) {
+		printf("导出grade.txt文件失败！\n");
+		return;
+	}
+
+	int size;
+	vector<Grade>* vg;
+	vg = getAllGrade(connection);
+	if (vg == NULL) {
+		printf("成绩信息为空！\n");
+		outFile.close();
+		return;
+	}
+	outFile << "学号\t课程号\t成绩\n";
+	size = vg->size();
+	for (int i = 0; i < size; i++) {
+		outFile << (*vg)[i].toString() << "\n";
+	}
+	printf("成功导出grade.txt文件!\n");
+	outFile.close();
+}
+
+void exportAllData(_ConnectionPtr connection) {
+	exportStudentData(connection);
+	exportCourseData(connection);
+	exportGradeData(connection);
+}
+
+
+
+void importData(_ConnectionPtr connection) {
+	while (true) {
+		try {
+			system("cls");
+			printf("1.导入学生信息\n");
+			printf("2.导入课程信息\n");
+			printf("3.导入成绩信息\n");
+			printf("4.导入所有信息\n");
+			printf("0.返回上一级\n");
+			int opt = -1;
+			checkOptInput(opt, 0, 4);
+
+			printf("\n");
+
+			switch (opt) {
+			case 1://导入学生信息
+				importStudentData(connection);
+				break;
+			case 2://导入课程信息
+				importCourseData(connection);
+				break;
+			case 3://导入成绩信息
+				importGradeData(connection);
+				break;
+			case 4://导入所有信息
+				importAllData(connection);
+				break;
+			default://返回上一级
+				return;
+			}
+			system("pause");
+		}
+		catch (_com_error& err) {
+			wprintf(L"操作失败！\n");
+			wprintf(L"The application throws the error: %s\n", (wchar_t*)err.ErrorMessage());
+			wprintf(L"Description = %s\n", (wchar_t*)err.Description());
+			system("pause");
+		}
+	}
+}
+
+void importStudentData(_ConnectionPtr connection) {
+	ifstream inFile("student.txt", ios::in);
+	if (!inFile.is_open()) {
+		printf("读取student.txt文件失败！\n");
+		return;
+	}
+
+	string title[5];
+	inFile >> title[0] >> title[1] >> title[2] >> title[3] >> title[4];
+	if (!(title[0] == "学号" && title[1] == "姓名" && title[2] == "性别" && title[3] == "班级" && title[4] == "状态")) {
+		printf("文件格式异常，读取失败！\n");
+		return;
+	}
+
+	Student* student = new Student();
+	while (!inFile.eof()) {
+		inFile >> title[0] >> title[1] >> title[2] >> title[3] >> title[4];
+		student->setId(title[0]);
+		student->setName(title[1]);
+		student->setSex(title[2]);
+		student->setStuClass(title[3]);
+		student->setStatus(title[4]);
+		addStudent(connection, *student);
+	}
+	printf("成功导入student.txt文件!\n");
+	inFile.close();
+}
+
+void importCourseData(_ConnectionPtr connection) {
+	ifstream inFile("course.txt", ios::in);
+	if (!inFile.is_open()) {
+		printf("读取course.txt文件失败！\n");
+		return;
+	}
+
+	string title[2];
+	inFile >> title[0] >> title[1];
+	if (!(title[0] == "课程号" && title[1] == "课程名")) {
+		printf("文件格式异常，读取失败！\n");
+		return;
+	}
+
+	Course* course = new Course();
+	while (!inFile.eof()) {
+		inFile >> title[0] >> title[1];
+		course->setId(title[0]);
+		course->setName(title[1]);
+		addCourse(connection, *course);
+	}
+	printf("成功导入course.txt文件!\n");
+	inFile.close();
+}
+
+void importGradeData(_ConnectionPtr connection) {
+	ifstream inFile("grade.txt", ios::in);
+	if (!inFile.is_open()) {
+		printf("读取grade.txt文件失败！\n");
+		return;
+	}
+
+	string title[3];
+	inFile >> title[0] >> title[1] >> title[2];
+	if (!(title[0] == "学号" && title[1] == "课程号" && title[2] == "成绩")) {
+		printf("文件格式异常，读取失败！\n");
+		return;
+	}
+
+	Grade* grade = new Grade();
+	while (!inFile.eof()) {
+		inFile >> title[0] >> title[1] >> title[2];
+		grade->setStuId(title[0]);
+		grade->setCourseId(title[1]);
+		grade->setGrade(title[2]);
+		addGrade(connection, *grade);
+	}
+	printf("成功导入grade.txt文件!\n");
+	inFile.close();
+}
+
+void importAllData(_ConnectionPtr connection) {
+	importStudentData(connection);
+	importCourseData(connection);
+	importGradeData(connection);
 }

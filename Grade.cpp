@@ -22,12 +22,7 @@ public:
 	void setGrade(string grade) { this->grade = grade; }
 
 	string toString() {
-		string toStr = "Grade{";
-		toStr += "stuId='" + stuId + '\'' +
-			", courseId='" + courseId + '\'' +
-			", grade='" + grade + '\'' +
-			'}';
-		return toStr;
+		return stuId + "\t" + courseId + "\t" + grade;
 	}
 private:
 	string stuId;
