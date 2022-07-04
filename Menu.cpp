@@ -19,34 +19,34 @@ void mainMenu(_ConnectionPtr connection) {
 			checkOptInput(opt, 0, 9);
 
 			switch (opt) {
-			case 1:
+			case 1://显示所有学生
 				showAllStudent(connection);
 				break;
-			case 2:
+			case 2://增加学生
 				insertStudent(connection);
 				break;
-			case 3:
+			case 3://删除学生
 				deleteStudent(connection);
 				break;
-			case 4:
+			case 4://修改学生
 				changeStudent(connection);
 				break;
-			case 5:
+			case 5://从文件导入学生信息
 				importData(connection);
 				break;
-			case 6:
+			case 6://导出学生信息到文件
 				exportData(connection);
 				break;
-			case 7:
+			case 7://学生成绩管理
 				studentGradeMenu(connection);
 				break;
-			case 8:
+			case 8://课程管理
 				courseMenu(connection);
 				break;
-			case 9:
+			case 9://高级功能
 				advancedFunction(connection);
 				break;
-			default:
+			default://退出程序
 				exit(EXIT_SUCCESS);
 			}
 			printf("\n");
@@ -83,7 +83,7 @@ void studentGradeMenu(_ConnectionPtr connection) {
 			string stuId, courseId;
 			string stuClass, courseName;
 			double grade = -1;
-			int size;
+			size_t size;
 			vector<Grade>* v;
 			switch (opt) {
 			case 1://输入学生成绩
@@ -141,7 +141,7 @@ void studentGradeMenu(_ConnectionPtr connection) {
 				}
 				size = v->size();
 				cout << "学号\t" << "课程名\t" << "成绩\n";
-				for (int i = 0; i < size; i++) {
+				for (size_t i = 0; i < size; i++) {
 					cout << (*v)[i].toString() << "\n";
 				}
 				break;
@@ -184,7 +184,7 @@ void studentGradeExternMenu(_ConnectionPtr connection) {
 			string stuId, courseId;
 			string stuClass, courseName;
 			double grade = -1;
-			int size;
+			size_t size;
 			vector<Grade>* v;
 			Grade* gra;
 			Course* course;
@@ -266,7 +266,7 @@ void studentGradeExternMenu(_ConnectionPtr connection) {
 				}
 				size = v->size();
 				cout << "学号\t" << "课程名\t" << "成绩\n";
-				for (int i = 0; i < size; i++) {
+				for (size_t i = 0; i < size; i++) {
 					cout << (*v)[i].toString() << "\n";
 				}
 				break;
@@ -285,7 +285,7 @@ void studentGradeExternMenu(_ConnectionPtr connection) {
 				}
 				size = v->size();
 				cout << "学号\t" << "课程名\t" << "成绩\n";
-				for (int i = 0; i < size; i++) {
+				for (size_t i = 0; i < size; i++) {
 					cout << (*v)[i].toString() << "\n";
 				}
 				break;
@@ -297,7 +297,7 @@ void studentGradeExternMenu(_ConnectionPtr connection) {
 				}
 				size = v->size();
 				cout << "学号\t" << "课程名\t" << "成绩\n";
-				for (int i = 0; i < size; i++) {
+				for (size_t i = 0; i < size; i++) {
 					cout << (*v)[i].toString() << "\n";
 				}
 				break;
@@ -329,7 +329,7 @@ void courseMenu(_ConnectionPtr connection) {
 
 			printf("\n");
 
-			int size;
+			size_t size;
 			string courseId, courseName;
 			vector<Course>* v;
 			switch (opt) {
@@ -363,7 +363,7 @@ void courseMenu(_ConnectionPtr connection) {
 				}
 				size = v->size();
 				cout << "课程号\t" << "课程名\n";
-				for (int i = 0; i < size; i++) {
+				for (size_t i = 0; i < size; i++) {
 					cout << (*v)[i].toString() << "\n";
 				}
 				break;
@@ -386,33 +386,37 @@ void advancedFunction(_ConnectionPtr connection) {
 	_RecordsetPtr record(_uuidof(Recordset));
 	string sql;
 
+	//重置cin并清空缓冲区
 	cin.clear();
 	while (cin.get() != '\n');
+
 	while (true) {
 		try {
+			//输出提示符
 			wprintf(L"sql>");
-			//获取sql命令及种类
+			//获取SQL命令
 			getline(cin, sql);
-			while (sql == "" || sql[sql.size() - 1] != ';') {
+			while (sql == "" || trim(sql)[trim(sql).size() - 1] != ';') {//获取多行的SQL语句
 				wprintf(L"   >");
 				string tmp;
 				getline(cin, tmp);
 				sql += " " + tmp;
 			}
+			//去除首尾空格及中间多余空格
+			sql = reduce(sql);
+			//获取SQL语句类别
 			string comType = "";
 			getSqlType(sql, comType);
-			//执行sql命令
+			//执行SQL命令
 			if (comType == "select") {//查询
 				record = connection->Execute(sql.c_str(), NULL, (long)0);
 				for (long i = 0; i < record->Fields->Count; i++)
 					wprintf(L"%s\t", (wchar_t*)record->Fields->GetItem(i)->Name);
 				printf("\n");
 				wprintf(L"%s", (wchar_t*)record->GetString(adClipString, long(-1), "\t", "\n", "Null"));
-				//showRecordInfo(record);
-			}else if (comType == "exit" || comType == "exit;") {
-				system("pause");
+			}else if (comType == "exit" || comType == "exit;") {//退出
 				break;
-			}else {
+			}else {//其他类型
 				connection->Execute(sql.c_str(), NULL, (long)0);
 			}
 			printf("\n");
@@ -433,9 +437,9 @@ void showAllStudent(_ConnectionPtr connection) {
 		return;
 	}
 
-	int size = vs->size();
+	size_t size = vs->size();
 	printf("学号\t姓名\t性别\t班级\t状态\n");
-	for (int i = 0; i < size; i++) {
+	for (size_t i = 0; i < size; i++) {
 		cout << (*vs)[i].toString() << "\n";
 	}
 }
@@ -446,6 +450,11 @@ void insertStudent(_ConnectionPtr connection) {
 	string str;
 	printf("请输入学号：");
 	cin >> str;
+	Student* checkExist = getStudentById(connection, str);
+	if (checkExist != NULL) {
+		printf("该学生已存在！\n");
+		return;
+	}
 	stu->setId(str);
 	printf("请输入姓名：");
 	cin >> str;
@@ -487,18 +496,18 @@ void changeStudent(_ConnectionPtr connection) {
 		return;
 	}
 
-	printf("请选择修改 班级(0) / 学生状态(1)：");
+	printf("请选择修改 班级(0) / 学生状态(1)：\n");
 	int opt = -1;
 	checkOptInput(opt, 0, 1);
 
 	string input;
 	switch (opt) {
-		case 0:
+		case 0://修改班级
 			printf("\n请输入新班级：");
 			cin >> input;
 			updateStudentClass(connection,id,input);
 			break;
-		default:
+		default://修改状态
 			printf("\n请输入新状态：");
 			cin >> input;
 			updateStudentStatus(connection,id, input);
@@ -509,6 +518,10 @@ void changeStudent(_ConnectionPtr connection) {
 void exportData(_ConnectionPtr connection) {
 	while (true) {
 		try {
+			// 文件夹不存在则创建文件夹
+			if (_access("./data", 0) == -1) {
+				_mkdir("./data");
+			}
 			system("cls");
 			printf("1.导出学生信息\n");
 			printf("2.导出课程信息\n");
@@ -548,13 +561,13 @@ void exportData(_ConnectionPtr connection) {
 }
 
 void exportStudentData(_ConnectionPtr connection) {
-	ofstream outFile("student.txt", ios::out);
+	ofstream outFile("./data/student.txt", ios::out);
 	if (!outFile.is_open()) {
 		printf("导出student.txt文件失败！\n");
 		return;
 	}
 
-	int size;
+	size_t size;
 	vector<Student>* vs;
 	vs = getAllStudent(connection);
 	if (vs == NULL) {
@@ -564,21 +577,22 @@ void exportStudentData(_ConnectionPtr connection) {
 	}
 	outFile << "学号\t姓名\t性别\t班级\t状态\n";
 	size = vs->size();
-	for (int i = 0; i < size; i++) {
-		outFile << (*vs)[i].toString() << "\n";
+	for (size_t i = 0; i < size; i++) {
+		outFile << (*vs)[i].toString();
+		if (i != (size - 1)) outFile << "\n";
 	}
 	printf("成功导出student.txt文件!\n");
 	outFile.close();
 }
 
 void exportCourseData(_ConnectionPtr connection) {
-	ofstream outFile("course.txt", ios::out);
+	ofstream outFile("./data/course.txt", ios::out);
 	if (!outFile.is_open()) {
 		printf("导出course.txt文件失败！\n");
 		return;
 	}
 
-	int size;
+	size_t size;
 	vector<Course>* vc;
 	vc = getAllCourse(connection);
 	if (vc == NULL) {
@@ -588,21 +602,22 @@ void exportCourseData(_ConnectionPtr connection) {
 	}
 	outFile << "课程号\t课程名\n";
 	size = vc->size();
-	for (int i = 0; i < size; i++) {
-		outFile << (*vc)[i].toString() << "\n";
+	for (size_t i = 0; i < size; i++) {
+		outFile << (*vc)[i].toString();
+		if (i != (size - 1)) outFile << "\n";
 	}
 	printf("成功导出course.txt文件!\n");
 	outFile.close();
 }
 
 void exportGradeData(_ConnectionPtr connection) {
-	ofstream outFile("grade.txt", ios::out);
+	ofstream outFile("./data/grade.txt", ios::out);
 	if (!outFile.is_open()) {
 		printf("导出grade.txt文件失败！\n");
 		return;
 	}
 
-	int size;
+	size_t size;
 	vector<Grade>* vg;
 	vg = getAllGrade(connection);
 	if (vg == NULL) {
@@ -612,8 +627,9 @@ void exportGradeData(_ConnectionPtr connection) {
 	}
 	outFile << "学号\t课程号\t成绩\n";
 	size = vg->size();
-	for (int i = 0; i < size; i++) {
-		outFile << (*vg)[i].toString() << "\n";
+	for (size_t i = 0; i < size; i++) {
+		outFile << (*vg)[i].toString();
+		if (i != (size - 1)) outFile << "\n";
 	}
 	printf("成功导出grade.txt文件!\n");
 	outFile.close();
@@ -630,6 +646,10 @@ void exportAllData(_ConnectionPtr connection) {
 void importData(_ConnectionPtr connection) {
 	while (true) {
 		try {
+			// 文件夹不存在则创建文件夹
+			if (_access("./data", 0) == -1) {
+				_mkdir("./data");
+			}
 			system("cls");
 			printf("1.导入学生信息\n");
 			printf("2.导入课程信息\n");
@@ -669,13 +689,13 @@ void importData(_ConnectionPtr connection) {
 }
 
 void importStudentData(_ConnectionPtr connection) {
-	ifstream inFile("student.txt", ios::in);
+	ifstream inFile("./data/student.txt", ios::in);
 	if (!inFile.is_open()) {
 		printf("读取student.txt文件失败！\n");
 		return;
 	}
 
-	string title[5];
+	string title[5];//用于存储表头及每行的数据
 	inFile >> title[0] >> title[1] >> title[2] >> title[3] >> title[4];
 	if (!(title[0] == "学号" && title[1] == "姓名" && title[2] == "性别" && title[3] == "班级" && title[4] == "状态")) {
 		printf("文件格式异常，读取失败！\n");
@@ -697,13 +717,13 @@ void importStudentData(_ConnectionPtr connection) {
 }
 
 void importCourseData(_ConnectionPtr connection) {
-	ifstream inFile("course.txt", ios::in);
+	ifstream inFile("./data/course.txt", ios::in);
 	if (!inFile.is_open()) {
 		printf("读取course.txt文件失败！\n");
 		return;
 	}
 
-	string title[2];
+	string title[2];//用于存储表头及每行的数据
 	inFile >> title[0] >> title[1];
 	if (!(title[0] == "课程号" && title[1] == "课程名")) {
 		printf("文件格式异常，读取失败！\n");
@@ -722,13 +742,13 @@ void importCourseData(_ConnectionPtr connection) {
 }
 
 void importGradeData(_ConnectionPtr connection) {
-	ifstream inFile("grade.txt", ios::in);
+	ifstream inFile("./data/grade.txt", ios::in);
 	if (!inFile.is_open()) {
 		printf("读取grade.txt文件失败！\n");
 		return;
 	}
 
-	string title[3];
+	string title[3];//用于存储表头及每行的数据
 	inFile >> title[0] >> title[1] >> title[2];
 	if (!(title[0] == "学号" && title[1] == "课程号" && title[2] == "成绩")) {
 		printf("文件格式异常，读取失败！\n");

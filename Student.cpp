@@ -1,3 +1,6 @@
+/*
+* Ñ§Éú±íDAO
+*/
 #ifndef STUDENT_CPP
 #define STUDENT_CPP
 

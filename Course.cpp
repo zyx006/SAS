@@ -1,3 +1,6 @@
+/*
+* ¿Î³Ì±íDAO
+*/
 #ifndef COURSE_CPP
 #define COURSE_CPP
 

@@ -31,7 +31,7 @@ void updateStudentStatus(_ConnectionPtr connection, string id, string status) {
 Student* getStudentById(_ConnectionPtr connection, string id) {
 	string sql = "select * from student where id = '" + id + "'";
 	_RecordsetPtr record = connection->Execute(sql.c_str(), NULL, (long)0);
-	if (record->BOF == -1) return NULL;
+	if (record->BOF == -1) return NULL;//记录集为空
 
 	Student *student = new Student();
 	student->setId((char*)(_bstr_t)record->Fields->GetItem("id")->Value);
@@ -45,7 +45,7 @@ Student* getStudentById(_ConnectionPtr connection, string id) {
 std::vector<Student>* getStudentByName(_ConnectionPtr connection, string name) {
 	string sql = "select * from student where name = '" + name + "'";
 	_RecordsetPtr record = connection->Execute(sql.c_str(), NULL, (long)0);
-	if (record->BOF == -1) return NULL;
+	if (record->BOF == -1) return NULL;//记录集为空
 
 	std::vector<Student> *v = new std::vector<Student>();
 	Student* student;
@@ -64,7 +64,7 @@ std::vector<Student>* getStudentByName(_ConnectionPtr connection, string name) {
 std::vector<Student>* getAllStudent(_ConnectionPtr connection) {
 	string sql = "select * from student";
 	_RecordsetPtr record = connection->Execute(sql.c_str(), NULL, (long)0);
-	if (record->BOF == -1) return NULL;
+	if (record->BOF == -1) return NULL;//记录集为空
 
 	std::vector<Student>* v = new std::vector<Student>();
 	Student* student;

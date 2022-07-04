@@ -1,3 +1,6 @@
+/*
+* 成绩表DAO
+*/
 #ifndef GRADE_CPP
 #define GRADE_CPP
 
@@ -25,9 +28,9 @@ public:
 		return stuId + "\t" + courseId + "\t" + grade;
 	}
 private:
-	string stuId;
-	string courseId;
-	string grade;
+	string stuId;//学号
+	string courseId;//课程号
+	string grade;//成绩
 };
 
 #endif // !GRADE_CPP

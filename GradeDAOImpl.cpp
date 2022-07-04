@@ -35,7 +35,7 @@ void updateOnesGrade(_ConnectionPtr connection, string stuId, string courseId, s
 Grade* getOnesGrade(_ConnectionPtr connection, string stuId,string courseId) {
 	string sql = "select * from grade where stuId = '" + stuId + "\' and courseId = \'" + courseId + "'";
 	_RecordsetPtr record = connection->Execute(sql.c_str(), NULL, (long)0);
-	if (record->BOF == -1) return NULL;
+	if (record->BOF == -1) return NULL;//记录集为空
 
 	Grade* grade = new Grade();
 	grade->setStuId((char*)(_bstr_t)record->Fields->GetItem("stuId")->Value);
@@ -47,7 +47,7 @@ Grade* getOnesGrade(_ConnectionPtr connection, string stuId,string courseId) {
 std::vector<Grade>* getGradeByStuId(_ConnectionPtr connection, string stuId) {
 	string sql = "select * from grade where stuId = '" + stuId + "'";
 	_RecordsetPtr record = connection->Execute(sql.c_str(), NULL, (long)0);
-	if (record->BOF == -1) return NULL;
+	if (record->BOF == -1) return NULL;//记录集为空
 
 	std::vector<Grade>* v = new std::vector<Grade>();
 	Grade* grade;
@@ -64,7 +64,7 @@ std::vector<Grade>* getGradeByStuId(_ConnectionPtr connection, string stuId) {
 std::vector<Grade>* getGradeByCourseId(_ConnectionPtr connection, string courseId) {
 	string sql = "select * from grade where courseId = '" + courseId + "'";
 	_RecordsetPtr record = connection->Execute(sql.c_str(), NULL, (long)0);
-	if (record->BOF == -1) return NULL;
+	if (record->BOF == -1) return NULL;//记录集为空
 
 	std::vector<Grade>* v = new std::vector<Grade>();
 	Grade* grade;
@@ -81,7 +81,7 @@ std::vector<Grade>* getGradeByCourseId(_ConnectionPtr connection, string courseI
 std::vector<Grade>* getGradeByStuClass(_ConnectionPtr connection, string stuClass) {
 	string sql = "select * from grade where stuId in(select id from student where stuClass = '" + stuClass + "')";
 	_RecordsetPtr record = connection->Execute(sql.c_str(), NULL, (long)0);
-	if (record->BOF == -1) return NULL;
+	if (record->BOF == -1) return NULL;//记录集为空
 
 	std::vector<Grade>* v = new std::vector<Grade>();
 	Grade* grade;
@@ -98,7 +98,7 @@ std::vector<Grade>* getGradeByStuClass(_ConnectionPtr connection, string stuClas
 std::vector<Grade>* getAllGrade(_ConnectionPtr connection) {
 	string sql = "select * from grade";
 	_RecordsetPtr record = connection->Execute(sql.c_str(), NULL, (long)0);
-	if (record->BOF == -1) return NULL;
+	if (record->BOF == -1) return NULL;//记录集为空
 
 	std::vector<Grade>* v = new std::vector<Grade>();
 	Grade* grade;
@@ -115,7 +115,7 @@ std::vector<Grade>* getAllGrade(_ConnectionPtr connection) {
 double getOnesAvgGrade(_ConnectionPtr connection, string stuId) {
 	string sql = "select count(*) cnt,sum(grade) all_grade from grade where stuId = '" + stuId + "'";
 	_RecordsetPtr record = connection->Execute(sql.c_str(), NULL, (long)0);
-	if (record->BOF == -1) return NULL;
+	if (record->BOF == -1) return NULL;//记录集为空
 
 	int cnt = atoi((char*)(_bstr_t)record->Fields->GetItem("cnt")->Value);
 	double all_grade = atof((char*)(_bstr_t)record->Fields->GetItem("all_grade")->Value);
@@ -125,7 +125,7 @@ double getOnesAvgGrade(_ConnectionPtr connection, string stuId) {
 double getOnesAllGrade(_ConnectionPtr connection, string stuId) {
 	string sql = "select sum(grade) all_grade from grade where stuId = '" + stuId + "'";
 	_RecordsetPtr record = connection->Execute(sql.c_str(), NULL, (long)0);
-	if (record->BOF == -1) return NULL;
+	if (record->BOF == -1) return NULL;//记录集为空
 
 	return atof((char*)(_bstr_t)record->Fields->GetItem("all_grade")->Value);
 }
@@ -134,7 +134,7 @@ double getClassAvgGrade(_ConnectionPtr connection, string stuClass, string cours
 	string sql = "select avg(grade) avg_grade from grade where stuId in (select id from student where stuClass = '" + stuClass + "') ";
 	sql += "and courseId in (select id from course where name = '" + courseName + "')";
 	_RecordsetPtr record = connection->Execute(sql.c_str(), NULL, (long)0);
-	if (record->BOF == -1) return NULL;
+	if (record->BOF == -1) return NULL;//记录集为空
 
 	return atof((char*)(_bstr_t)record->Fields->GetItem("avg_grade")->Value);
 }
@@ -143,7 +143,7 @@ double getClassMaxGrade(_ConnectionPtr connection, string stuClass, string cours
 	string sql = "select max(grade) max_grade from grade where stuId in (select id from student where stuClass = '" + stuClass + "') ";
 	sql += "and courseId in (select id from course where name = '" + courseName + "')";
 	_RecordsetPtr record = connection->Execute(sql.c_str(), NULL, (long)0);
-	if (record->BOF == -1) return NULL;
+	if (record->BOF == -1) return NULL;//记录集为空
 
 	return atof((char*)(_bstr_t)record->Fields->GetItem("max_grade")->Value);
 }
@@ -152,7 +152,7 @@ double getClassMinGrade(_ConnectionPtr connection, string stuClass, string cours
 	string sql = "select min(grade) min_grade from grade where stuId in (select id from student where stuClass = '" + stuClass + "') ";
 	sql += "and courseId in (select id from course where name = '" + courseName + "')";
 	_RecordsetPtr record = connection->Execute(sql.c_str(), NULL, (long)0);
-	if (record->BOF == -1) return NULL;
+	if (record->BOF == -1) return NULL;//记录集为空
 
 	return atof((char*)(_bstr_t)record->Fields->GetItem("min_grade")->Value);
 }

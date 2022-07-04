@@ -1,12 +1,11 @@
+/*
+* ³ÌÐòÈë¿Ú
+*/
 #import "c:\\Program Files\\Common Files\\System\\ado\\msado15.dll" no_namespace rename("EOF", "EndOfFile")
 
 #include <stdio.h>  // wprintf
-#include <iostream>
 #include <locale.h> // setlocale
-#include <string>
-#include <vector>
 #include "DBCUtils.h"
-#include "StudentDAO.h"
 #include "Menu.h"
 using namespace std;
 
