@@ -8,7 +8,7 @@
 
 #include<iostream>
 #include<vector>
-#include"Student.cpp"
+#include"Student.h"
 
 /*
 * 向数据库添加学生

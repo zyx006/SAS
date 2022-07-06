@@ -8,7 +8,7 @@
 
 #include<iostream>
 #include<vector>
-#include"Course.cpp"
+#include"Course.h"
 
 /*
 * 向数据库添加课程

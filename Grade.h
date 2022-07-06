@@ -1,8 +1,8 @@
 /*
 * ≥…º®±ÌDAO
 */
-#ifndef GRADE_CPP
-#define GRADE_CPP
+#ifndef GRADE_H
+#define GRADE_H
 
 #include<string>
 using std::string;
@@ -33,4 +33,4 @@ private:
 	string grade;//≥…º®
 };
 
-#endif // !GRADE_CPP
+#endif // !GRADE_H

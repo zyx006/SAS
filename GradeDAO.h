@@ -8,7 +8,7 @@
 
 #include<iostream>
 #include<vector>
-#include"Grade.cpp"
+#include"Grade.h"
 
 /*
 * 向数据库添加成绩

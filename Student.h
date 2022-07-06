@@ -1,8 +1,8 @@
 /*
 * 学生表DAO
 */
-#ifndef STUDENT_CPP
-#define STUDENT_CPP
+#ifndef STUDENT_H
+#define STUDENT_H
 
 #include<string>
 using std::string;
@@ -39,4 +39,4 @@ private:
 	string status;//状态（在读、休学、退学）
 };
 
-#endif // !STUDENT_CPP
+#endif // !STUDENT_H
