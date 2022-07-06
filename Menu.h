@@ -12,9 +12,6 @@
 #include<direct.h>
 #include<io.h>
 
-#include"Student.cpp"
-#include"Course.cpp"
-#include"Grade.cpp"
 #include"DBCUtils.h"
 #include"MenuUtils.h"
 #include"StringUtils.h"

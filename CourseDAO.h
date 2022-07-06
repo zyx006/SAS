@@ -9,6 +9,7 @@
 #include<iostream>
 #include<vector>
 #include"Course.h"
+#include"BaseDAO.h"
 
 /*
 * 向数据库添加课程

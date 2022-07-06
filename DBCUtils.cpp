@@ -1,3 +1,6 @@
+/*
+* 数据库连接工具函数接口实现
+*/
 #include"DBCUtils.h"
 
 bool getConnection(std::string& pwd, _ConnectionPtr& connection) {

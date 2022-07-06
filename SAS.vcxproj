@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseDAOImpl.cpp" />
     <ClCompile Include="CourseDAOImpl.cpp" />
     <ClCompile Include="DBCUtils.cpp" />
     <ClCompile Include="GradeDAOImpl.cpp" />
@@ -137,6 +138,7 @@
     <ClCompile Include="StudentDAOImpl.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseDAO.h" />
     <ClInclude Include="Course.h" />
     <ClInclude Include="CourseDAO.h" />
     <ClInclude Include="DBCUtils.h" />

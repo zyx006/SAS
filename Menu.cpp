@@ -1,3 +1,6 @@
+/*
+* 菜单接口实现
+*/
 #include"Menu.h"
 
 void mainMenu(_ConnectionPtr connection) {

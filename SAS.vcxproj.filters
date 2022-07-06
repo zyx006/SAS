@@ -39,6 +39,9 @@
     <ClCompile Include="StringUtils.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="BaseDAOImpl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DBCUtils.h">
@@ -69,6 +72,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Grade.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseDAO.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

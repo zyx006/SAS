@@ -1,3 +1,6 @@
+/*
+* 字符串工具接口实现
+*/
 #include"StringUtils.h"
 
 string doubleToString(double num) {
