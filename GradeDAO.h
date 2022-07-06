@@ -9,6 +9,7 @@
 #include<iostream>
 #include<vector>
 #include"Grade.h"
+#include"BaseDAO.h"
 
 /*
 * 向数据库添加成绩

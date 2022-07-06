@@ -1,3 +1,6 @@
+/*
+* 字符串工具接口
+*/
 #ifndef STRING_UTILS_H
 #define STRING_UTILS_H
 #define _CRT_SECURE_NO_WARNINGS

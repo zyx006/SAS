@@ -1,3 +1,6 @@
+/*
+* 菜单工具接口实现
+*/
 #include"MenuUtils.h"
 
 void checkOptInput(int& opt, int low, int high) {
