@@ -861,12 +861,14 @@ void importStudentData(_ConnectionPtr connection) {
 	Student* student = new Student();
 	while (!inFile.eof()) {
 		inFile >> title[0] >> title[1] >> title[2] >> title[3] >> title[4];
-		student->setId(title[0]);
-		student->setName(title[1]);
-		student->setSex(title[2]);
-		student->setStuClass(title[3]);
-		student->setStatus(title[4]);
-		addStudent(connection, *student);
+		if (getStudentById(connection, title[0]) == NULL) {
+			student->setId(title[0]);
+			student->setName(title[1]);
+			student->setSex(title[2]);
+			student->setStuClass(title[3]);
+			student->setStatus(title[4]);
+			addStudent(connection, *student);
+		}
 	}
 	printf("成功导入student.txt文件!\n");
 	inFile.close();
@@ -889,9 +891,11 @@ void importCourseData(_ConnectionPtr connection) {
 	Course* course = new Course();
 	while (!inFile.eof()) {
 		inFile >> title[0] >> title[1];
-		course->setId(title[0]);
-		course->setName(title[1]);
-		addCourse(connection, *course);
+		if (getCourseById(connection, title[0]) == NULL) {
+			course->setId(title[0]);
+			course->setName(title[1]);
+			addCourse(connection, *course);
+		}
 	}
 	printf("成功导入course.txt文件!\n");
 	inFile.close();
@@ -914,10 +918,12 @@ void importGradeData(_ConnectionPtr connection) {
 	Grade* grade = new Grade();
 	while (!inFile.eof()) {
 		inFile >> title[0] >> title[1] >> title[2];
-		grade->setStuId(title[0]);
-		grade->setCourseId(title[1]);
-		grade->setGrade(title[2]);
-		addGrade(connection, *grade);
+		if (getOnesGrade(connection, title[0], title[1]) == NULL) {
+			grade->setStuId(title[0]);
+			grade->setCourseId(title[1]);
+			grade->setGrade(title[2]);
+			addGrade(connection, *grade);
+		}
 	}
 	printf("成功导入grade.txt文件!\n");
 	inFile.close();

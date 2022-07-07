@@ -15,7 +15,7 @@ _RecordsetPtr executeSql(_ConnectionPtr connection, const char* sql, vector<stri
 	size_t size = v->size();
 	for (size_t i = 0; i < size; i++)
 	{
-		_ParameterPtr p = command->CreateParameter("var" + i, adBSTR, adParamInput, sizeof((*v)[i].c_str()), (*v)[i].c_str());
+		_ParameterPtr p = command->CreateParameter("var" + i, adVarChar, adParamInput, sizeof((*v)[i]), (*v)[i].c_str());
 		command->Parameters->Append(p);
 	}
 	return command->Execute(NULL, NULL, long(0));
